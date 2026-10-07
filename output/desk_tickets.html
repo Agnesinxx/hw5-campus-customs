@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Customs — Ticket Plan</title>
+  <style>
+    :root {
+      --pink: #df3d85;
+      --pink-dark: #b82869;
+      --pink-soft: #fff0f6;
+      --pink-pale: #fff8fb;
+      --ink: #2b1b25;
+      --panel: #ffffff;
+      --line: #f0d8e3;
+      --muted: #75616c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fff 0%, #fff8fb 55%, #fff2f7 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+    main { max-width: 920px; margin: 0 auto; padding: 56px 24px 80px; }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -0.06em; color: #251720; }
+    .eyebrow { color: var(--pink); font-weight: 800; letter-spacing: .1em; text-transform: uppercase; font-size: .75rem; }
+    .intro { color: var(--muted); margin: 12px 0 30px; max-width: 680px; line-height: 1.6; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+    button {
+      border: 1px solid #efc9da;
+      background: #fff;
+      color: var(--pink-dark);
+      cursor: pointer;
+      padding: 9px 13px;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 700;
+      box-shadow: 0 1px 2px rgba(91, 33, 60, .04);
+      transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+    }
+    button:hover { background: var(--pink-soft); border-color: #e59aba; transform: translateY(-1px); }
+    button[aria-selected="true"] { background: var(--pink); border-color: var(--pink); color: #fff; box-shadow: 0 5px 12px rgba(190, 46, 111, .2); }
+    .panel { display: none; padding-top: 30px; }
+    .panel.active { display: block; }
+    .ticket-meta { color: var(--muted); margin-top: -6px; line-height: 1.6; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; margin-top: 20px; padding: 25px 27px; box-shadow: 0 10px 28px rgba(76, 32, 52, .06); }
+    h2, h3 { margin-top: 0; }
+    h2 { font-size: 1.45rem; }
+    h3 { color: var(--pink-dark); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+    ol { padding-left: 22px; margin-bottom: 0; }
+    li { margin: 12px 0; line-height: 1.55; }
+    code { color: #9d1f5d; background: var(--pink-pale); border: 1px solid #f4dce7; border-radius: 4px; padding: 1px 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+    .actual { min-height: 128px; background: #fffafd; border: 1px dashed #e4aec5; color: #917884; font-style: italic; box-shadow: none; }
+    .later { color: var(--muted); background: rgba(255, 255, 255, .65); border: 1px solid var(--line); border-radius: 14px; margin-top: 24px; padding: 28px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Campus Customs · Problem 6</p>
+    <h1>Ticket plan</h1>
+    <p class="intro">Expected agent-team flows based on the current open-ticket data. Actual results will be added after the agents are run.</p>
+
+    <nav class="tabs" aria-label="Ticket plan tabs">
+      <button aria-selected="true" aria-controls="ticket-101" id="tab-101">Ticket 101</button>
+      <button aria-selected="false" aria-controls="ticket-102" id="tab-102">Ticket 102</button>
+      <button aria-selected="false" aria-controls="ticket-103" id="tab-103">Ticket 103</button>
+      <button aria-selected="false" aria-controls="cash" id="tab-cash">Cash</button>
+      <button aria-selected="false" aria-controls="reflection" id="tab-reflection">Reflection</button>
+    </nav>
+
+    <section class="panel active" id="ticket-101" role="tabpanel" aria-labelledby="tab-101">
+      <h2>Ticket 101 — Bulldog tee</h2>
+      <p class="ticket-meta">Tauhid Zaman · 1 × <code>CC-TEE-WHITE</code>, size S · linked invoice <code>501</code></p>
+      <div class="card">
+        <h3>Expected</h3>
+        <ol>
+          <li><strong>Boss → Inventory first:</strong> the ticket asks for a specific SKU and size, so availability must be confirmed before any response is considered. Inventory should use <code>get_ticket(101)</code> and <code>check_inventory("CC-TEE-WHITE", "S")</code>; the expected result is 0 units in Aisle B.</li>
+          <li><strong>Inventory → Accounting:</strong> because ticket 101 links invoice 501, Accounting should use <code>get_invoice(501)</code> to verify the open rush reprint, its amount, description, vendor, and vendor lead days. The team should not turn the lead days into a promised arrival date.</li>
+          <li><strong>Boss → Customer Service:</strong> after the stock and invoice facts are confirmed, Customer Service should prepare an internal, truthful response recommendation. It should say the requested size is not currently available and must not promise fulfillment or contact Tauhid.</li>
+          <li><strong>Boss:</strong> combine the findings into a human-review recommendation. No inventory reservation, vendor contact, or customer message should be executed.</li>
+        </ol>
+      </div>
+      <div class="card actual">
+        <h3>Actual</h3>
+        <p><strong>Resolved.</strong> Boss, Inventory, Accounting, and Customer Service worked on the ticket. Boss delegated to Inventory, Accounting, and Customer Service; the audit also recorded Customer Service delegations to Accounting and Boss, plus an Accounting delegation to Inventory.</p>
+        <p>The run used <code>get_ticket</code>, <code>check_inventory</code>, <code>get_invoice</code>, <code>get_payments_for_reference</code>, and <code>get_pricing</code>. Inventory confirmed 0 size-S tees in Aisle B; Accounting confirmed invoice 501 was open for $840. Human approval recorded the $840 invoice-501 purchase, after which the ticket resolved.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="ticket-102" role="tabpanel" aria-labelledby="tab-102">
+      <h2>Ticket 102 — Rent due</h2>
+      <p class="ticket-meta">Elm City Properties · lease <code>1</code> · “shop rent due in 2 days”</p>
+      <div class="card">
+        <h3>Expected</h3>
+        <ol>
+          <li><strong>Boss → Facilities first:</strong> this is a lease notice. Facilities should use <code>get_ticket(102)</code> and <code>get_lease(1)</code> to confirm the Chapel Street shop, $2,400 monthly rent, and <code>2026-09-02</code> next due date.</li>
+          <li><strong>Facilities → Accounting:</strong> before recommending payment, Accounting should use <code>get_cash_account("checking")</code> and <code>get_payments_for_reference(1)</code>. The expected check is whether the $3,400 checking balance covers the rent without becoming negative and whether a payment for lease ID 1 is already recorded.</li>
+          <li><strong>Boss:</strong> summarize the lease terms, cash check, and payment-history result for human review. A human must approve any payment; no payment should be recorded or sent.</li>
+        </ol>
+      </div>
+      <div class="card actual">
+        <h3>Actual</h3>
+        <p><strong>Resolved.</strong> Boss, Facilities, Accounting, and Customer Service worked on the ticket. Boss delegated to Facilities, Accounting, and Customer Service; the audit also recorded peer delegations between Facilities and Accounting and from Customer Service to Facilities, Accounting, and Boss.</p>
+        <p>The run used <code>get_ticket</code>, <code>get_lease</code>, <code>get_cash_account</code>, and <code>get_payments_for_reference</code>. Facilities confirmed the $2,400 Chapel Street shop rent; Accounting found a $2,560 checking balance and no payment records for lease 1. Human approval recorded the $2,400 lease-1 payment, after which the ticket resolved.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="ticket-103" role="tabpanel" aria-labelledby="tab-103">
+      <h2>Ticket 103 — Bulk hoodie discount</h2>
+      <p class="ticket-meta">Yale AI Club · 20 × <code>CC-HOOD-NAVY</code>, size M · bulk-discount request</p>
+      <div class="card">
+        <h3>Expected</h3>
+        <ol>
+          <li><strong>Boss → Inventory first:</strong> the quantity request must be checked before discussing pricing. Inventory should use <code>get_ticket(103)</code> and <code>check_inventory("CC-HOOD-NAVY", "M")</code>; the expected result is 8 units in Aisle A, short of the requested 20.</li>
+          <li><strong>Inventory → Accounting:</strong> Accounting should use <code>get_pricing("CC-HOOD-NAVY")</code> to retrieve the $22 unit cost and $58 list price. This supports a human discount decision but does not authorize a discount.</li>
+          <li><strong>Boss → Customer Service:</strong> Customer Service should draft internal response guidance that does not promise 20 hoodies, a discount, or a restock date.</li>
+          <li><strong>Boss:</strong> provide a human-review recommendation identifying both constraints: only 8 requested-size hoodies are in stock, and a bulk price needs approval.</li>
+        </ol>
+      </div>
+      <div class="card actual">
+        <h3>Actual</h3>
+        <p><strong>Resolved with no cash action.</strong> Boss, Inventory, Accounting, and Customer Service worked on the ticket. Boss delegated to Inventory, Accounting, and Customer Service; the audit also recorded Customer Service and Accounting delegations back to Boss.</p>
+        <p>The run used <code>get_ticket</code>, <code>check_inventory</code>, and <code>get_pricing</code>. Inventory confirmed 8 size-M hoodies in Aisle A, a shortage of 12; Accounting confirmed the $22 unit cost and $58 list price. The team produced a recommendation only, so no approval or cash change was recorded.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="cash" role="tabpanel" aria-labelledby="tab-cash">
+      <div class="card">
+        <h3>Actual cash</h3>
+        <p><strong>Starting checking balance:</strong> $3,400.00</p>
+        <ul>
+          <li><strong>Ticket 101:</strong> −$840.00 for the human-approved purchase tied to invoice 501. Balance: $2,560.00.</li>
+          <li><strong>Ticket 102:</strong> −$2,400.00 for the human-approved payment tied to lease 1. Balance: $160.00.</li>
+          <li><strong>Ticket 103:</strong> $0.00; the recommendation required no money action.</li>
+        </ul>
+        <p><strong>Final checking balance:</strong> $160.00. This matches <code>cash_accounts.balance</code> in <code>campus_customs_new.db</code> exactly.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="reflection" role="tabpanel" aria-labelledby="tab-reflection">
+      <h2>Reflection — resolving the Campus Customs tickets</h2>
+      <p class="ticket-meta">This reflection uses the completed ticket records, the append-only audit trail, the Actual sections above, and the Cash tab. It describes what the team actually did, including the two human approvals.</p>
+
+      <div class="card">
+        <h3>How the team performed</h3>
+        <p><strong>Ticket 101 was handled safely and with the right operational dependency in mind.</strong> The team established that <code>CC-TEE-WHITE</code> in size S had 0 units in Aisle B, then connected that stockout to the $840 rush-reprint invoice 501. Inventory, Accounting, and Customer Service each had a useful role: one confirmed the shortage, one confirmed the invoice and approval need, and one kept the proposed customer response internal and truthful. The ticket did not resolve merely because the agents recommended a reprint; it resolved only after Operations desk approved the $840 purchase and invoice 501 became paid. That is a good match for the safety rule.</p>
+        <p><strong>Ticket 102 was the strongest test of the cash guard.</strong> Facilities confirmed lease 1 and its $2,400 Chapel Street rent, while Accounting checked checking and the absence of an existing lease-1 payment. The important actual detail is that the run saw $2,560 in checking, not the original $3,400, because the approved $840 invoice-501 purchase had already happened. The $2,400 payment therefore left $160 instead of making the account negative. The agents recommended and checked; the human approval route was the only part that moved money. That separation worked exactly as intended.</p>
+        <p><strong>Ticket 103 produced a useful recommendation without pretending it fulfilled the request.</strong> The team found only 8 size-M <code>CC-HOOD-NAVY</code> hoodies for a request of 20, a shortage of 12, and used the $22 unit cost and $58 list price to frame the discount question. It did not invent a restock date, reserve stock, set a discount, or spend cash. Because this ticket was defined as a recommendation workflow, it could resolve with no approval and no cash change. The remaining real-world decision—whether to offer a partial quantity, restock, or approve a price—still belongs to a human.</p>
+      </div>
+
+      <div class="card">
+        <h3>Expected versus Actual</h3>
+        <p><strong>Ticket 101:</strong> the Expected path was intentionally narrow: Boss would start with Inventory, then bring in Accounting for invoice 501 and Customer Service for a no-promises draft. Actual coverage reached the same conclusion, but it was less linear. Boss delegated to all three specialists, Customer Service also delegated to Accounting and Boss, and Accounting delegated to Inventory. The run also called <code>get_payments_for_reference</code> and <code>get_pricing</code>, which were defensible context checks but were not necessary to prove the size-S stockout or the $840 approval requirement. The important difference is that the Actual path included the required human purchase and ended resolved.</p>
+        <p><strong>Ticket 102:</strong> the Expected plan correctly started with Facilities and then Accounting, but Actual also involved Customer Service and several peer delegations between Facilities, Accounting, Customer Service, and Boss. That created more back-and-forth than the simple rent decision needed. The cash fact also changed from the Expected starting-state example: checking was $2,560 when the rent run occurred because ticket 101 had already consumed $840. The Actual flow caught that sequencing correctly, then the human-approved $2,400 payment left the verified $160 final balance.</p>
+        <p><strong>Ticket 103:</strong> the Expected plan was Inventory first, then Accounting for cost and price, then Customer Service. Actual again got the right facts—8 available against 20 requested, $22 cost, and $58 list price—but used extra Boss, Accounting, and Customer Service handoffs, including delegations back to Boss. That repetition did not damage the outcome, but it did not add much once the shortage and price facts were established. The key Actual difference is that the system marked the recommendation workflow resolved without a money action, while still leaving any discount or communication for human review.</p>
+      </div>
+
+      <div class="card">
+        <h3>Where one agent plus tools may have been better</h3>
+        <p>For these three small, structured tickets, a single operations agent with the same MCP tools could probably have gathered the facts and produced the final brief more directly. Ticket 101 needs stock, invoice, and payment-status checks; ticket 102 needs lease, cash, and payment-history checks; ticket 103 needs stock and pricing. Those are short, known checklists. The real audit after the latest reset contains repeated <code>get_ticket</code> calls and extra specialist-to-specialist or specialist-to-Boss delegations, so full connectivity made the trace richer but not always more efficient. The multi-agent version still earned its place for role clarity, separate internal drafts, and auditability around money. For a larger or less predictable operations desk, those perspectives could matter more; for this compact three-ticket set, a single well-instructed agent plus human approval may have been simpler and cheaper.</p>
+      </div>
+
+      <div class="card">
+        <h3>Three new problems this team can already handle</h3>
+        <ol>
+          <li><strong>A follow-up on the missing size-S Bulldog tee:</strong> the team can look up <code>CC-TEE-WHITE</code> size S, inspect invoice 501 and its vendor information, and confirm whether the $840 reprint has already been paid. It can prepare an internal fulfillment update without promising a delivery date or contacting Tauhid.</li>
+          <li><strong>Another Chapel Street rent reminder:</strong> Facilities and Accounting can retrieve lease 1’s $2,400 rent and due date, check the live checking balance, and check whether a lease-1 payment is already recorded. With only $160 left after the completed run, the system can clearly flag that another $2,400 payment would fail the no-negative-cash rule rather than recommend it casually.</li>
+          <li><strong>A revised Yale AI Club hoodie request:</strong> Inventory can confirm the 8 size-M hoodies still shown in Aisle A and Accounting can compare the $22 cost with the $58 list price. Customer Service can draft an internal, no-promises response for a partial-quantity or pricing question; any actual discount remains a human decision.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Three problems it cannot solve yet</h3>
+        <ol>
+          <li><strong>Actually replenishing the 12 missing hoodies or placing a new tee order:</strong> the current tools can read stock, invoice, vendor, and pricing data, but cannot create a purchase order, select a vendor product, reserve inventory, or record expected delivery. This would need vendor-catalog and purchase-order tools, plus controlled inventory-reservation and receiving capabilities behind human approval.</li>
+          <li><strong>Issuing an approved bulk quote or contacting Yale AI Club:</strong> the team can explain the $22/$58 pricing boundary but cannot calculate and save a specific quote, apply an approved discount, or send a message. It would need quote and discount-policy tools, a customer/organization record, and a reviewed outbound-communication capability that keeps the human approval step.</li>
+          <li><strong>Planning around the $160 cash position:</strong> the system can read one checking balance and prevent a negative approved payment, but it cannot forecast deposits, payroll, recurring bills, or alternative funding before a future purchase. It would need bank-transaction and cash-forecast tools, a fuller accounts-payable/receivable ledger, and an Accounting capability for scenario planning—not just the present balance check used for ticket 102.</li>
+        </ol>
+      </div>
+
+      <div class="card actual">
+        <h3>Bottom line</h3>
+        <p>The run was successful because it stayed grounded in the database and made humans own the money decisions: $840 for invoice 501, $2,400 for lease 1, and $0 for ticket 103. The final checking balance of $160 matches the Cash tab and the working database. The system was accurate and cautious, but not minimal: the audit shows extra delegations and repeated checks beyond the focused Expected plans. The next improvement is not simply adding more agents; it is giving the team tighter routing rules and adding only the operational tools needed for the decisions humans actually want it to prepare.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    const tabs = document.querySelectorAll('.tabs button');
+    const panels = document.querySelectorAll('.panel');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+        panels.forEach((panel) => panel.classList.toggle('active', panel.id === tab.getAttribute('aria-controls')));
+      });
+    });
+  </script>
+</body>
+</html>

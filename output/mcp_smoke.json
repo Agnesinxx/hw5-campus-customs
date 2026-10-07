@@ -1,0 +1,43 @@
+[
+  {
+    "prompt": "Check inventory for SKU CC-TEE-WHITE in size S.",
+    "tool": "check_inventory",
+    "output": {
+      "found": true,
+      "sku": "CC-TEE-WHITE",
+      "name": "Classic Bulldog Tee",
+      "size": "S",
+      "qty": 0,
+      "location": "Aisle B"
+    }
+  },
+  {
+    "prompt": "Look up lease ID 1.",
+    "tool": "get_lease",
+    "output": {
+      "found": true,
+      "id": 1,
+      "space_name": "Chapel Street shop",
+      "landlord": "Elm City Properties",
+      "monthly_rent": 2400.0,
+      "next_due": "2026-09-02",
+      "notes": null
+    }
+  },
+  {
+    "prompt": "Look up invoice ID 501.",
+    "tool": "get_invoice",
+    "output": {
+      "found": true,
+      "id": 501,
+      "vendor_id": 1,
+      "amount": 840.0,
+      "due_date": "2026-08-28",
+      "status": "open",
+      "description": "Rush reprint CC-TEE-WHITE S",
+      "vendor_name": "Bulldog Print Co",
+      "vendor_specialty": "apparel reprint",
+      "vendor_lead_days": 5
+    }
+  }
+]

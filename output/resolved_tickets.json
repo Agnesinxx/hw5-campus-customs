@@ -1,0 +1,44 @@
+[
+  {
+    "ticket_id": 101,
+    "final_status": "resolved",
+    "outcome": "The requested CC-TEE-WHITE size S had 0 units in Aisle B. Invoice 501 was open for a $840 rush reprint; the human-approved purchase paid the invoice and resolved the ticket.",
+    "agents": [
+      {"agent": "Boss", "contribution": "Coordinated the ticket and produced the final recommendation."},
+      {"agent": "Inventory", "contribution": "Confirmed 0 size-S tees in Aisle B and the linked reprint context."},
+      {"agent": "Accounting", "contribution": "Confirmed invoice 501 was open for $840 and identified the required human approval."},
+      {"agent": "Customer Service", "contribution": "Prepared an unsent, truthful internal response recommendation."}
+    ],
+    "delegations": ["Boss → Inventory", "Boss → Accounting", "Boss → Customer Service", "Customer Service → Accounting", "Customer Service → Boss", "Accounting → Inventory"],
+    "mcp_tools": ["get_ticket", "check_inventory", "get_invoice", "get_payments_for_reference", "get_pricing"],
+    "human_approval": {"action": "purchase", "reference_type": "invoice", "reference_id": 501, "amount": 840.0, "account": "checking", "approved_by": "Operations desk", "payment_id": 1}
+  },
+  {
+    "ticket_id": 102,
+    "final_status": "resolved",
+    "outcome": "Lease 1 required $2,400 rent for the Chapel Street shop. The team found no recorded payment and a $2,560 checking balance; the human-approved payment resolved the ticket.",
+    "agents": [
+      {"agent": "Boss", "contribution": "Coordinated the rent-notice review and final recommendation."},
+      {"agent": "Facilities", "contribution": "Confirmed the Chapel Street shop lease, $2,400 monthly rent, and 2026-09-02 due date."},
+      {"agent": "Accounting", "contribution": "Confirmed $2,560 in checking and no payment records for reference 1 before approval."},
+      {"agent": "Customer Service", "contribution": "Prepared an internal-only follow-up recommendation."}
+    ],
+    "delegations": ["Boss → Facilities", "Boss → Accounting", "Boss → Customer Service", "Customer Service → Facilities", "Customer Service → Accounting", "Customer Service → Boss", "Facilities → Accounting", "Accounting → Facilities"],
+    "mcp_tools": ["get_ticket", "get_lease", "get_cash_account", "get_payments_for_reference"],
+    "human_approval": {"action": "payment", "reference_type": "lease", "reference_id": 1, "amount": 2400.0, "account": "checking", "approved_by": "Operations desk", "payment_id": 2}
+  },
+  {
+    "ticket_id": 103,
+    "final_status": "resolved",
+    "outcome": "The request for 20 size-M CC-HOOD-NAVY hoodies exceeded the 8 units in stock by 12. The team supplied a pricing recommendation using the $22 unit cost and $58 list price; no money action occurred.",
+    "agents": [
+      {"agent": "Boss", "contribution": "Coordinated the recommendation and closed the no-cash workflow."},
+      {"agent": "Inventory", "contribution": "Confirmed 8 size-M hoodies in Aisle A and a shortage of 12."},
+      {"agent": "Accounting", "contribution": "Analyzed the $22 unit cost and $58 list price without approving a discount."},
+      {"agent": "Customer Service", "contribution": "Prepared an unsent internal response draft that promised neither stock nor a discount."}
+    ],
+    "delegations": ["Boss → Inventory", "Boss → Accounting", "Boss → Customer Service", "Customer Service → Boss", "Accounting → Boss"],
+    "mcp_tools": ["get_ticket", "check_inventory", "get_pricing"],
+    "human_approval": null
+  }
+]
